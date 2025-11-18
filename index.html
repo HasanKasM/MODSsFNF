@@ -1,0 +1,2392 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موقع لنشر مودات FNF </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #6a11cb;
+            --secondary: #2575fc;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --accent: #00d2ff;
+            --success: #00b894;
+            --warning: #fdcb6e;
+            --danger: #e74c3c;
+            --text: #333;
+            --bg: #ffffff;
+            --card-bg: #f8f9fa;
+            --border: #e0e0e0;
+        }
+
+        [data-theme="dark"] {
+            --primary: #8a2be2;
+            --secondary: #4a00e0;
+            --dark: #121212;
+            --light: #1e1e1e;
+            --accent: #00ffcc;
+            --success: #00b894;
+            --warning: #fdcb6e;
+            --danger: #e74c3c;
+            --text: #ffffff;
+            --bg: #1a1a2e;
+            --card-bg: #16213e;
+            --border: #2d3748;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        /* الهيدر */
+        header {
+            background: var(--card-bg);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .search-box {
+            display: flex;
+            background: var(--bg);
+            border-radius: 25px;
+            padding: 0.5rem 1rem;
+            margin-left: 1rem;
+            border: 1px solid var(--border);
+        }
+
+        .search-box input {
+            border: none;
+            background: none;
+            outline: none;
+            width: 200px;
+            color: var(--text);
+        }
+
+        .search-box input::placeholder {
+            color: var(--text);
+            opacity: 0.7;
+        }
+
+        .user-menu {
+            position: relative;
+        }
+
+        .user-btn {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .user-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 0.5rem;
+            width: 200px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 1001;
+            border: 1px solid var(--border);
+        }
+
+        .dropdown-menu.active {
+            display: block;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            color: var(--text);
+            text-decoration: none;
+            padding: 0.7rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .dropdown-menu a:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 0.5rem 0;
+        }
+
+        /* الأقسام */
+        section {
+            padding: 3rem 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            color: var(--text);
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        /* المودات */
+        .mods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .mod-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            border: 1px solid var(--border);
+        }
+
+        .mod-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border-color: var(--primary);
+        }
+
+        .mod-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mod-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .mod-info {
+            padding: 1.5rem;
+        }
+
+        .mod-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .mod-author {
+            color: var(--accent);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .mod-description {
+            color: var(--text);
+            opacity: 0.8;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            height: 60px;
+            overflow: hidden;
+        }
+
+        .mod-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text);
+            opacity: 0.7;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .mod-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+            transform: translateY(-3px);
+        }
+
+        /* صفحة تفاصيل المود */
+        .mod-detail-page {
+            display: none;
+            padding: 100px 2rem 3rem;
+            min-height: 100vh;
+        }
+
+        .mod-detail-page.active {
+            display: block;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--bg);
+            color: var(--text);
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: all 0.3s;
+            border: 1px solid var(--border);
+        }
+
+        .back-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateX(-5px);
+        }
+
+        .mod-detail {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .mod-detail-image {
+            width: 100%;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .mod-detail-image img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .mod-detail-info h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .mod-detail-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+            opacity: 0.8;
+        }
+
+        .mod-detail-description {
+            margin-bottom: 2rem;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            color: var(--text);
+        }
+
+        .mod-detail-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+        }
+
+        .mod-gallery {
+            margin-top: 3rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .gallery-item {
+            border-radius: 10px;
+            overflow: hidden;
+            height: 150px;
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* صفحة المطور */
+        .developer-profile {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .developer-avatar {
+            text-align: center;
+        }
+
+        .avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            margin: 0 auto 1rem;
+        }
+
+        .developer-info h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .developer-stats {
+            display: flex;
+            gap: 2rem;
+            margin: 1rem 0;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text);
+            opacity: 0.8;
+        }
+
+        /* المودال */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: var(--primary);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            border-radius: 5px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(106, 17, 203, 0.3);
+        }
+
+        .form-control::placeholder {
+            color: var(--text);
+            opacity: 0.5;
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .file-upload {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-upload-btn {
+            background: var(--bg);
+            color: var(--text);
+            padding: 0.7rem 1rem;
+            border-radius: 5px;
+            border: 1px dashed var(--border);
+            width: 100%;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-upload-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .file-upload input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            border-radius: 5px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .form-select option {
+            background: var(--card-bg);
+            color: var(--text);
+        }
+
+        .optional-badge {
+            background: var(--bg);
+            color: var(--text);
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.7rem;
+            margin-left: 0.5rem;
+            opacity: 0.7;
+        }
+
+        .login-options {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .login-option {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            background: var(--bg);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid var(--border);
+        }
+
+        .login-option:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .login-option i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+
+        /* الفوتر */
+        footer {
+            background: var(--card-bg);
+            padding: 3rem 2rem;
+            border-top: 2px solid var(--primary);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            color: var(--accent);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: var(--text);
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-5px);
+            color: var(--primary);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text);
+            opacity: 0.8;
+        }
+
+        /* رسائل التنبيه */
+        .alert {
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .alert-success {
+            background: rgba(0, 184, 148, 0.2);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+
+        .alert-error {
+            background: rgba(231, 76, 60, 0.2);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+        }
+
+        /* ريسبونسيف */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .search-box input {
+                width: 150px;
+            }
+
+            .mods-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+
+            .mod-detail {
+                grid-template-columns: 1fr;
+            }
+
+            .login-options {
+                flex-direction: column;
+            }
+
+            .developer-profile {
+                grid-template-columns: 1fr;
+            }
+
+            .mod-detail-actions {
+                flex-direction: column;
+            }
+        }
+
+        /* حالة عدم وجود مودات */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            background: var(--bg);
+            border-radius: 15px;
+            border: 2px dashed var(--border);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--text);
+            opacity: 0.3;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .empty-state p {
+            color: var(--text);
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+
+        /* تبويب */
+        .tabs {
+            display: flex;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tab {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            color: var(--text);
+        }
+
+        .tab.active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .tab:hover {
+            background: var(--bg);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* نظام التقييم */
+        .rating {
+            display: flex;
+            gap: 0.2rem;
+            margin: 0.5rem 0;
+        }
+
+        .star {
+            color: var(--text);
+            opacity: 0.5;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .star.filled {
+            color: #ffc107;
+            opacity: 1;
+        }
+
+        .rating-value {
+            margin-right: 0.5rem;
+            font-weight: bold;
+            color: var(--text);
+        }
+
+        /* تأكيد الحذف */
+        .confirm-modal {
+            text-align: center;
+        }
+
+        .confirm-modal .modal-body {
+            padding: 2rem;
+        }
+
+        .confirm-modal h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            color: var(--text);
+        }
+
+        .confirm-modal p {
+            margin-bottom: 2rem;
+            color: var(--text);
+            opacity: 0.8;
+        }
+
+        .confirm-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        /* إعدادات المظهر */
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(30px);
+        }
+
+        .language-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .lang-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .settings-section {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .settings-section h3 {
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        /* تحسينات عامة */
+        .download-info {
+            background: var(--bg);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            border: 1px solid var(--border);
+        }
+
+        .download-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            flex: 1;
+            border: 1px solid var(--border);
+        }
+
+        .stat-card .value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .stat-card .label {
+            font-size: 0.9rem;
+            color: var(--text);
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <!-- الهيدر -->
+    <header>
+        <nav class="nav-container">
+            <div class="logo">
+                <i class="fas fa-music"></i>
+                <span> FNF MODS  </span>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="#home">الرئيسية</a></li>
+                <li><a href="#mods">المودات</a></li>
+                <li><a href="#developers">المطورون</a></li>
+                <li><a href="#instructions">كيفية التثبيت</a></li>
+            </ul>
+
+            <div class="search-box">
+                <input type="text" placeholder="ابحث عن مود...">
+                <i class="fas fa-search"></i>
+            </div>
+
+            <div class="user-menu">
+                <button class="user-btn">
+                    <i class="fas fa-user"></i>
+                    <span>حسابي</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="dropdown-menu">
+                    <a href="#" id="login-btn">تسجيل الدخول</a>
+                    <a href="#" id="register-btn">إنشاء حساب</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" id="add-mod-btn">نشر مود</a>
+                    <a href="#" id="my-mods-btn">موداتي</a>
+                    <a href="#" id="profile-btn">ملفي الشخصي</a>
+                    <a href="#" id="settings-btn">الإعدادات</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- الصفحة الرئيسية -->
+    <div id="main-page">
+        <!-- الهيرو سيكشن -->
+        <section id="home">
+            <div class="container">
+                <div class="hero-content" style="text-align: center; padding: 2rem;">
+                    <h1 style="font-size: 3rem; margin-bottom: 1rem; background: linear-gradient(45deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">FNF Mods Hub</h1>
+                    <p style="font-size: 1.2rem; margin-bottom: 2rem; color: var(--text); opacity: 0.8;"> موقع لنشر مودات فرايدي نايت فنكن (بيتا) </p>
+                    <button class="btn btn-primary" id="hero-add-mod-btn" style="padding: 1rem 2rem; font-size: 1.1rem;">نشر مود جديد</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- المودات -->
+        <section id="mods">
+            <div class="container">
+                <h2 class="section-title">أحدث المودات</h2>
+                
+                <div class="tabs">
+                    <div class="tab active" data-tab="all-mods">جميع المودات</div>
+                    <div class="tab" data-tab="popular-mods">الأكثر شعبية</div>
+                    <div class="tab" data-tab="new-mods">الأحدث</div>
+                </div>
+                
+                <div class="tab-content active" id="all-mods">
+                    <div id="mods-container">
+                        <!-- سيتم تعبئة المودات ديناميكياً -->
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="popular-mods">
+                    <div id="popular-mods-container">
+                        <!-- سيتم تعبئة المودات الشعبية ديناميكياً -->
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="new-mods">
+                    <div id="new-mods-container">
+                        <!-- سيتم تعبئة المودات الجديدة ديناميكياً -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- المطورون -->
+        <section id="developers" style="background: var(--card-bg);">
+            <div class="container">
+                <h2 class="section-title">أبرز المطورين</h2>
+                <div id="developers-container">
+                    <!-- سيتم تعبئة المطورين ديناميكياً -->
+                </div>
+            </div>
+        </section>
+
+        <!-- كيفية التثبيت -->
+        <section id="instructions">
+            <div class="container">
+                <h2 class="section-title">كيفية تثبيت المودات</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                    <div style="background: var(--card-bg); padding: 2rem; border-radius: 10px; text-align: center; border: 1px solid var(--border);">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(45deg, var(--primary), var(--secondary)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: bold; font-size: 1.5rem; color: white;">1</div>
+                        <h3 style="margin-bottom: 1rem; color: var(--text);">تحميل المود</h3>
+                        <p style="color: var(--text); opacity: 0.8;">قم بتحميل المود المطلوب من خلال الضغط على زر التحميل</p>
+                    </div>
+                    <div style="background: var(--card-bg); padding: 2rem; border-radius: 10px; text-align: center; border: 1px solid var(--border);">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(45deg, var(--primary), var(--secondary)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: bold; font-size: 1.5rem; color: white;">2</div>
+                        <h3 style="margin-bottom: 1rem; color: var(--text);">فك الضغط</h3>
+                        <p style="color: var(--text); opacity: 0.8;">افتح ملف ZIP الذي تم تحميله باستخدام برنامج فك الضغط</p>
+                    </div>
+                    <div style="background: var(--card-bg); padding: 2rem; border-radius: 10px; text-align: center; border: 1px solid var(--border);">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(45deg, var(--primary), var(--secondary)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: bold; font-size: 1.5rem; color: white;">3</div>
+                        <h3 style="margin-bottom: 1rem; color: var(--text);">نسخ المجلد</h3>
+                        <p style="color: var(--text); opacity: 0.8;">انسخ مجلد المود إلى مجلد mods في لعبة FNF</p>
+                    </div>
+                    <div style="background: var(--card-bg); padding: 2rem; border-radius: 10px; text-align: center; border: 1px solid var(--border);">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(45deg, var(--primary), var(--secondary)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: bold; font-size: 1.5rem; color: white;">4</div>
+                        <h3 style="margin-bottom: 1rem; color: var(--text);">الاستمتاع</h3>
+                        <p style="color: var(--text); opacity: 0.8;">شغل اللعبة واختر المود من قائمة Mods واستمتع!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- الفوتر -->
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-column">
+                        <h3>FNF Mods Hub</h3>
+                        <p style="color: var(--text); opacity: 0.8;"> تم تطوير الموقع بواسطه حساني </p>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-discord"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h3>روابط سريعة</h3>
+                        <ul class="footer-links">
+                            <li><a href="#home">الرئيسية</a></li>
+                            <li><a href="#mods">المودات</a></li>
+                            <li><a href="#developers">المطورون</a></li>
+                            <li><a href="#instructions">كيفية التثبيت</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h3>الدعم</h3>
+                        <ul class="footer-links">
+                            <li><a href="#">الأسئلة الشائعة</a></li>
+                            <li><a href="#">الإبلاغ عن مشكلة</a></li>
+                            <li><a href="#">اتصل بنا</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="copyright">
+                    <p> قناة المطور @MODSsFnf </p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- صفحة تفاصيل المود -->
+    <div class="mod-detail-page" id="mod-detail-page">
+        <div class="container">
+            <a href="#" class="back-btn" id="back-to-main">
+                <i class="fas fa-arrow-right"></i>
+                العودة إلى القائمة
+            </a>
+            
+            <div id="mod-detail-content">
+                <!-- سيتم تعبئة محتوى المود ديناميكياً -->
+            </div>
+        </div>
+    </div>
+
+    <!-- مودال تسجيل الدخول -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">تسجيل الدخول</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-error" id="login-error">
+                    خطأ في تسجيل الدخول. يرجى المحاولة مرة أخرى.
+                </div>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label class="form-label" for="login-email">البريد الإلكتروني</label>
+                        <input type="email" id="login-email" class="form-control" placeholder="example@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="login-password">كلمة المرور</label>
+                        <input type="password" id="login-password" class="form-control" placeholder="كلمة المرور" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">تسجيل الدخول</button>
+                </form>
+                <div class="login-options">
+                    <div class="login-option">
+                        <i class="fab fa-google"></i>
+                        <p>جوجل</p>
+                    </div>
+                    <div class="login-option">
+                        <i class="fab fa-discord"></i>
+                        <p>ديسكورد</p>
+                    </div>
+                    <div class="login-option">
+                        <i class="fab fa-github"></i>
+                        <p>جيت هاب</p>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 1rem; color: var(--text);">ليس لديك حساب؟ <a href="#" id="switch-to-register" style="color: var(--primary);">إنشاء حساب جديد</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- مودال إنشاء حساب -->
+    <div class="modal" id="register-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">إنشاء حساب جديد</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-error" id="register-error">
+                    خطأ في إنشاء الحساب. يرجى المحاولة مرة أخرى.
+                </div>
+                <div class="alert alert-success" id="register-success">
+                    تم إنشاء الحساب بنجاح! يمكنك الآن تسجيل الدخول.
+                </div>
+                <form id="register-form">
+                    <div class="form-group">
+                        <label class="form-label" for="register-username">اسم المستخدم</label>
+                        <input type="text" id="register-username" class="form-control" placeholder="اسم المستخدم" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="register-email">البريد الإلكتروني</label>
+                        <input type="email" id="register-email" class="form-control" placeholder="example@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="register-password">كلمة المرور</label>
+                        <input type="password" id="register-password" class="form-control" placeholder="كلمة المرور" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="register-confirm-password">تأكيد كلمة المرور</label>
+                        <input type="password" id="register-confirm-password" class="form-control" placeholder="تأكيد كلمة المرور" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">إنشاء حساب</button>
+                </form>
+                <p style="text-align: center; margin-top: 1rem; color: var(--text);">لديك حساب بالفعل؟ <a href="#" id="switch-to-login" style="color: var(--primary);">تسجيل الدخول</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- مودال نشر مود -->
+    <div class="modal" id="add-mod-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">نشر مود جديد</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-error" id="mod-error">
+                    يرجى ملء جميع الحقول المطلوبة.
+                </div>
+                <div class="alert alert-success" id="mod-success">
+                    تم نشر المود بنجاح!
+                </div>
+                <form id="add-mod-form">
+                    <div class="form-group">
+                        <label class="form-label" for="mod-image">صورة المود (الغلاف) <span class="optional-badge">مطلوب</span></label>
+                        <div class="file-upload">
+                            <div class="file-upload-btn" id="mod-image-btn">
+                                <i class="fas fa-cloud-upload-alt"></i> اختر صورة الغلاف
+                            </div>
+                            <input type="file" id="mod-image" accept="image/*" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="mod-name">اسم المود <span class="optional-badge">مطلوب</span></label>
+                        <input type="text" id="mod-name" class="form-control" placeholder="اسم المود" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="mod-description">وصف المود <span class="optional-badge">مطلوب</span></label>
+                        <textarea id="mod-description" class="form-control" placeholder="وصف المود" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="mod-engine">محرك المود <span class="optional-badge">مطلوب</span></label>
+                        <select id="mod-engine" class="form-select" required>
+                            <option value="">اختر المحرك</option>
+                            <option value="Psych Engine">Psych Engine</option>
+                            <option value="VSlice">VSlice</option>
+                            <option value="Kade Engine">Kade Engine</option>
+                            <option value="Other">محرك آخر</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="mod-link">رابط التحميل <span class="optional-badge">مطلوب</span></label>
+                        <input type="url" id="mod-link" class="form-control" placeholder="رابط التحميل (ميديا فاير أو رابط مباشر)" required>
+                        <p style="color: var(--text); opacity: 0.7; font-size: 0.8rem; margin-top: 0.5rem;">يمكنك استخدام ميديا فاير أو أي خدمة مشاركة ملفات أخرى</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="mod-video">رابط فيديو <span class="optional-badge">اختياري</span></label>
+                        <input type="url" id="mod-video" class="form-control" placeholder="رابط فيديو على YouTube">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="mod-gallery">معرض الصور <span class="optional-badge">اختياري</span></label>
+                        <div class="file-upload">
+                            <div class="file-upload-btn" id="mod-gallery-btn">
+                                <i class="fas fa-images"></i> اختر صور إضافية
+                            </div>
+                            <input type="file" id="mod-gallery" accept="image/*" multiple>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">نشر المود</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- مودال الملف الشخصي -->
+    <div class="modal" id="profile-modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 class="modal-title">الملف الشخصي</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="profile-content">
+                    <!-- سيتم تعبئة محتوى الملف الشخصي ديناميكياً -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- مودال الإعدادات -->
+    <div class="modal" id="settings-modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h3 class="modal-title">الإعدادات</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-section">
+                    <h3>المظهر</h3>
+                    <div class="theme-toggle">
+                        <span>الوضع الفاتح</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="theme-toggle">
+                            <span class="slider"></span>
+                        </label>
+                        <span>الوضع الداكن</span>
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h3>اللغة</h3>
+                    <div class="language-selector">
+                        <button class="lang-btn active" data-lang="ar">العربية</button>
+                        <button class="lang-btn" data-lang="en">English</button>
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h3>الحساب</h3>
+                    <div class="form-group">
+                        <label class="form-label" for="profile-username">اسم المستخدم</label>
+                        <input type="text" id="profile-username" class="form-control" value="المستخدم الحالي">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="profile-email">البريد الإلكتروني</label>
+                        <input type="email" id="profile-email" class="form-control" value="user@example.com">
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%;">حفظ التغييرات</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- مودال تأكيد الحذف -->
+    <div class="modal" id="delete-modal">
+        <div class="modal-content confirm-modal">
+            <div class="modal-header">
+                <h3 class="modal-title">تأكيد الحذف</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h3>هل أنت متأكد من حذف هذا المود؟</h3>
+                <p>لا يمكن التراجع عن هذه العملية بعد تنفيذها.</p>
+                <div class="confirm-actions">
+                    <button class="btn btn-secondary" id="cancel-delete">إلغاء</button>
+                    <button class="btn btn-danger" id="confirm-delete">نعم، احذف المود</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // البيانات المخزنة محلياً (بديل لقاعدة البيانات)
+        let mods = JSON.parse(localStorage.getItem('fnfMods')) || [];
+        let users = JSON.parse(localStorage.getItem('fnfUsers')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+        let ratings = JSON.parse(localStorage.getItem('fnfRatings')) || {};
+        let modToDelete = null;
+        let currentTheme = localStorage.getItem('theme') || 'light';
+        let currentLanguage = localStorage.getItem('language') || 'ar';
+
+        // عناصر DOM
+        const mainPage = document.getElementById('main-page');
+        const modDetailPage = document.getElementById('mod-detail-page');
+        const modsContainer = document.getElementById('mods-container');
+        const popularModsContainer = document.getElementById('popular-mods-container');
+        const newModsContainer = document.getElementById('new-mods-container');
+        const developersContainer = document.getElementById('developers-container');
+        const modDetailContent = document.getElementById('mod-detail-content');
+        const profileContent = document.getElementById('profile-content');
+        const loginModal = document.getElementById('login-modal');
+        const registerModal = document.getElementById('register-modal');
+        const addModModal = document.getElementById('add-mod-modal');
+        const profileModal = document.getElementById('profile-modal');
+        const settingsModal = document.getElementById('settings-modal');
+        const deleteModal = document.getElementById('delete-modal');
+        const backToMainBtn = document.getElementById('back-to-main');
+        const loginBtn = document.getElementById('login-btn');
+        const registerBtn = document.getElementById('register-btn');
+        const addModBtn = document.getElementById('add-mod-btn');
+        const myModsBtn = document.getElementById('my-mods-btn');
+        const profileBtn = document.getElementById('profile-btn');
+        const settingsBtn = document.getElementById('settings-btn');
+        const heroAddModBtn = document.getElementById('hero-add-mod-btn');
+        const userBtn = document.querySelector('.user-btn');
+        const dropdownMenu = document.querySelector('.dropdown-menu');
+        const closeModals = document.querySelectorAll('.close-modal');
+        const switchToRegister = document.getElementById('switch-to-register');
+        const switchToLogin = document.getElementById('switch-to-login');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const addModForm = document.getElementById('add-mod-form');
+        const modImageBtn = document.getElementById('mod-image-btn');
+        const modGalleryBtn = document.getElementById('mod-gallery-btn');
+        const modImage = document.getElementById('mod-image');
+        const modGallery = document.getElementById('mod-gallery');
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const cancelDeleteBtn = document.getElementById('cancel-delete');
+        const confirmDeleteBtn = document.getElementById('confirm-delete');
+        const themeToggle = document.getElementById('theme-toggle');
+        const langButtons = document.querySelectorAll('.lang-btn');
+
+        // تهيئة المظهر واللغة
+        function initializeApp() {
+            // تطبيق المظهر
+            document.body.setAttribute('data-theme', currentTheme);
+            themeToggle.checked = currentTheme === 'dark';
+            
+            // تطبيق اللغة
+            document.documentElement.lang = currentLanguage;
+            document.documentElement.dir = currentLanguage === 'ar' ? 'rtl' : 'ltr';
+            
+            // تحديث واجهة المستخدم
+            updateUI();
+        }
+
+        // إصلاح مشكلة رفع الملفات - جعل الأزرار تنقر على input file
+        modImageBtn.addEventListener('click', () => {
+            modImage.click();
+        });
+
+        modGalleryBtn.addEventListener('click', () => {
+            modGallery.click();
+        });
+
+        // العودة إلى الصفحة الرئيسية
+        backToMainBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            showMainPage();
+        });
+
+        // عرض الصفحة الرئيسية
+        function showMainPage() {
+            mainPage.style.display = 'block';
+            modDetailPage.classList.remove('active');
+            window.scrollTo(0, 0);
+        }
+
+        // عرض صفحة التفاصيل
+        function showDetailPage() {
+            mainPage.style.display = 'none';
+            modDetailPage.classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // تحديث واجهة المستخدم بناءً على حالة تسجيل الدخول
+        function updateUI() {
+            if (currentUser) {
+                userBtn.innerHTML = `<i class="fas fa-user"></i> <span>${currentUser.username}</span> <i class="fas fa-chevron-down"></i>`;
+                document.querySelectorAll('#login-btn, #register-btn').forEach(el => el.style.display = 'none');
+            } else {
+                userBtn.innerHTML = `<i class="fas fa-user"></i> <span>حسابي</span> <i class="fas fa-chevron-down"></i>`;
+                document.querySelectorAll('#login-btn, #register-btn').forEach(el => el.style.display = 'block');
+            }
+            renderMods();
+            renderDevelopers();
+        }
+
+        // عرض المودات
+        function renderMods() {
+            // عرض جميع المودات
+            if (mods.length === 0) {
+                modsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-box-open"></i>
+                        <h3>لا توجد مودات بعد</h3>
+                        <p>كن أول من ينشر مود على المنصة!</p>
+                        <button class="btn btn-primary" id="empty-add-mod-btn">نشر أول مود</button>
+                    </div>
+                `;
+                document.getElementById('empty-add-mod-btn').addEventListener('click', () => {
+                    if (currentUser) {
+                        addModModal.classList.add('active');
+                    } else {
+                        loginModal.classList.add('active');
+                    }
+                });
+            } else {
+                modsContainer.innerHTML = '';
+                mods.forEach((mod, index) => {
+                    const modCard = createModCard(mod, index);
+                    modsContainer.appendChild(modCard);
+                });
+            }
+
+            // عرض المودات الشعبية
+            const popularMods = [...mods].sort((a, b) => (b.downloads || 0) - (a.downloads || 0)).slice(0, 6);
+            if (popularMods.length === 0) {
+                popularModsContainer.innerHTML = '<p style="text-align: center; color: var(--text); opacity: 0.7; padding: 2rem;">لا توجد مودات شعبية بعد</p>';
+            } else {
+                popularModsContainer.innerHTML = '';
+                popularMods.forEach((mod, index) => {
+                    const modCard = createModCard(mod, mods.indexOf(mod));
+                    popularModsContainer.appendChild(modCard);
+                });
+            }
+
+            // عرض المودات الجديدة
+            const newMods = [...mods].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 6);
+            if (newMods.length === 0) {
+                newModsContainer.innerHTML = '<p style="text-align: center; color: var(--text); opacity: 0.7; padding: 2rem;">لا توجد مودات جديدة</p>';
+            } else {
+                newModsContainer.innerHTML = '';
+                newMods.forEach((mod, index) => {
+                    const modCard = createModCard(mod, mods.indexOf(mod));
+                    newModsContainer.appendChild(modCard);
+                });
+            }
+        }
+
+        // إنشاء بطاقة مود
+        function createModCard(mod, index) {
+            const modCard = document.createElement('div');
+            modCard.className = 'mod-card';
+            
+            // حساب متوسط التقييم
+            const modRatings = ratings[mod.id] || [];
+            const avgRating = modRatings.length > 0 
+                ? (modRatings.reduce((sum, r) => sum + r.rating, 0) / modRatings.length).toFixed(1)
+                : '4.0';
+                
+            modCard.innerHTML = `
+                <div class="mod-image">
+                    ${mod.image ? `<img src="${mod.image}" alt="${mod.name}">` : `<i class="fas fa-music"></i>`}
+                </div>
+                <div class="mod-info">
+                    <h3 class="mod-title">${mod.name}</h3>
+                    <p class="mod-author">بواسطة: <a href="#" class="developer-link" data-developer="${mod.author}">${mod.author}</a></p>
+                    <div class="rating">
+                        <span class="rating-value">${avgRating}</span>
+                        ${createStarRating(avgRating)}
+                    </div>
+                    <p class="mod-description">${mod.description}</p>
+                    <div class="mod-meta">
+                        <span><i class="fas fa-download"></i> ${mod.downloads || 0}</span>
+                        <span><i class="fas fa-calendar"></i> ${mod.date}</span>
+                        <span>${mod.engine}</span>
+                    </div>
+                    <div class="mod-actions">
+                        <button class="btn btn-primary download-btn" data-index="${index}">تحميل</button>
+                        <button class="btn btn-secondary details-btn" data-index="${index}">تفاصيل</button>
+                    </div>
+                </div>
+            `;
+            
+            return modCard;
+        }
+
+        // إنشاء النجوم للتقييم
+        function createStarRating(rating) {
+            const fullStars = Math.floor(rating);
+            const halfStar = rating % 1 >= 0.5;
+            const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+            
+            let stars = '';
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fas fa-star star filled"></i>';
+            }
+            if (halfStar) {
+                stars += '<i class="fas fa-star-half-alt star filled"></i>';
+            }
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="far fa-star star"></i>';
+            }
+            
+            return stars;
+        }
+
+        // عرض المطورين
+        function renderDevelopers() {
+            const developerMap = {};
+            
+            // تجميع المودات حسب المطور
+            mods.forEach(mod => {
+                if (!developerMap[mod.author]) {
+                    developerMap[mod.author] = {
+                        name: mod.author,
+                        modsCount: 0,
+                        totalDownloads: 0,
+                        joinDate: mod.date
+                    };
+                }
+                developerMap[mod.author].modsCount++;
+                developerMap[mod.author].totalDownloads += mod.downloads || 0;
+            });
+            
+            const developers = Object.values(developerMap).sort((a, b) => b.modsCount - a.modsCount);
+            
+            if (developers.length === 0) {
+                developersContainer.innerHTML = '<p style="text-align: center; color: var(--text); opacity: 0.7; padding: 2rem;">لا توجد مودات بعد</p>';
+            } else {
+                developersContainer.innerHTML = '';
+                developers.forEach(dev => {
+                    const devCard = document.createElement('div');
+                    devCard.className = 'mod-card';
+                    devCard.style.cursor = 'pointer';
+                    devCard.innerHTML = `
+                        <div class="developer-profile">
+                            <div class="developer-avatar">
+                                <div class="avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <h3>${dev.name}</h3>
+                            </div>
+                            <div class="developer-info">
+                                <div class="developer-stats">
+                                    <div class="stat">
+                                        <div class="stat-value">${dev.modsCount}</div>
+                                        <div class="stat-label">مودات</div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="stat-value">${dev.totalDownloads}</div>
+                                        <div class="stat-label">تحميلات</div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="stat-value">${dev.joinDate}</div>
+                                        <div class="stat-label">تاريخ الانضمام</div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary view-developer-btn" data-developer="${dev.name}">عرض الملف الشخصي</button>
+                            </div>
+                        </div>
+                    `;
+                    developersContainer.appendChild(devCard);
+                });
+            }
+            
+            // إضافة مستمعي الأحداث لأزرار المطورين
+            document.querySelectorAll('.view-developer-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const developerName = e.target.getAttribute('data-developer');
+                    showDeveloperProfile(developerName);
+                });
+            });
+            
+            document.querySelectorAll('.developer-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const developerName = e.target.getAttribute('data-developer');
+                    showDeveloperProfile(developerName);
+                });
+            });
+        }
+
+        // عرض ملف المطور
+        function showDeveloperProfile(developerName) {
+            const developerMods = mods.filter(mod => mod.author === developerName);
+            
+            profileContent.innerHTML = `
+                <div class="developer-profile">
+                    <div class="developer-avatar">
+                        <div class="avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h2>${developerName}</h2>
+                        <p style="color: var(--text); opacity: 0.8;">مطور مودات FNF</p>
+                    </div>
+                    <div class="developer-info">
+                        <div class="developer-stats">
+                            <div class="stat">
+                                <div class="stat-value">${developerMods.length}</div>
+                                <div class="stat-label">مودات</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">${developerMods.reduce((sum, mod) => sum + (mod.downloads || 0), 0)}</div>
+                                <div class="stat-label">تحميلات</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">${developerMods[0]?.date || 'غير معروف'}</div>
+                                <div class="stat-label">تاريخ الانضمام</div>
+                            </div>
+                        </div>
+                        <h3 style="margin-top: 2rem; color: var(--text);">مودات ${developerName}</h3>
+                        <div class="mods-grid" style="margin-top: 1rem;">
+                            ${developerMods.length > 0 ? 
+                                developerMods.map((mod, index) => `
+                                    <div class="mod-card">
+                                        <div class="mod-image">
+                                            ${mod.image ? `<img src="${mod.image}" alt="${mod.name}">` : `<i class="fas fa-music"></i>`}
+                                        </div>
+                                        <div class="mod-info">
+                                            <h3 class="mod-title">${mod.name}</h3>
+                                            <p class="mod-description">${mod.description}</p>
+                                            <div class="mod-meta">
+                                                <span><i class="fas fa-download"></i> ${mod.downloads || 0}</span>
+                                                <span>${mod.engine}</span>
+                                            </div>
+                                            <div class="mod-actions">
+                                                <button class="btn btn-primary download-btn" data-index="${mods.indexOf(mod)}">تحميل</button>
+                                                <button class="btn btn-secondary details-btn" data-index="${mods.indexOf(mod)}">تفاصيل</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('') : 
+                                '<p style="text-align: center; color: var(--text); opacity: 0.7; padding: 2rem; grid-column: 1 / -1;">لا توجد مودات</p>'
+                            }
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            profileModal.classList.add('active');
+            
+            // إضافة مستمعي الأحداث للأزرار
+            document.querySelectorAll('.download-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const index = e.target.getAttribute('data-index');
+                    downloadMod(index);
+                });
+            });
+            
+            document.querySelectorAll('.details-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const index = e.target.getAttribute('data-index');
+                    showModDetails(index);
+                });
+            });
+        }
+
+        // تحميل المود
+        function downloadMod(index) {
+            const mod = mods[index];
+            mod.downloads = (mod.downloads || 0) + 1;
+            localStorage.setItem('fnfMods', JSON.stringify(mods));
+            
+            // فتح رابط التحميل
+            if (mod.link) {
+                window.open(mod.link, '_blank');
+            }
+            
+            renderMods();
+            renderDevelopers();
+        }
+
+        // عرض تفاصيل المود
+        function showModDetails(index) {
+            const mod = mods[index];
+            const modRatings = ratings[mod.id] || [];
+            const avgRating = modRatings.length > 0 
+                ? (modRatings.reduce((sum, r) => sum + r.rating, 0) / modRatings.length).toFixed(1)
+                : '4.0';
+            
+            modDetailContent.innerHTML = `
+                <div class="mod-detail">
+                    <div class="mod-detail-image">
+                        ${mod.image ? `<img src="${mod.image}" alt="${mod.name}">` : `<div style="background: linear-gradient(45deg, var(--secondary), var(--primary)); height: 400px; display: flex; align-items: center; justify-content: center; font-size: 4rem; color: white;"><i class="fas fa-music"></i></div>`}
+                    </div>
+                    <div class="mod-detail-info">
+                        <h1>${mod.name}</h1>
+                        <div class="mod-detail-meta">
+                            <span>بواسطة: <a href="#" class="developer-link" data-developer="${mod.author}">${mod.author}</a></span>
+                            <span>المحرك: ${mod.engine}</span>
+                            <span><i class="fas fa-download"></i> ${mod.downloads || 0}</span>
+                            <span><i class="fas fa-calendar"></i> ${mod.date}</span>
+                        </div>
+                        <div class="rating">
+                            <span class="rating-value">${avgRating}</span>
+                            ${createStarRating(avgRating)}
+                            <span style="margin-right: 1rem; color: var(--text); opacity: 0.7;">(${modRatings.length} تقييم)</span>
+                        </div>
+                        ${currentUser ? `
+                        <div class="rating" style="margin: 1rem 0;">
+                            <span style="margin-left: 1rem; color: var(--text);">قيم هذا المود:</span>
+                            <div id="user-rating">
+                                ${[1,2,3,4,5].map(i => `
+                                    <i class="far fa-star star rate-star" data-rating="${i}"></i>
+                                `).join('')}
+                            </div>
+                        </div>
+                        ` : ''}
+                        <p class="mod-detail-description">${mod.description}</p>
+                        
+                        <div class="download-info">
+                            <h3 style="margin-bottom: 1rem; color: var(--text);">معلومات التحميل</h3>
+                            <p style="color: var(--text); opacity: 0.8;">انقر على زر التحميل أدناه للانتقال إلى رابط التحميل</p>
+                            <div class="download-stats">
+                                <div class="stat-card">
+                                    <div class="value">${mod.downloads || 0}</div>
+                                    <div class="label">مرات التحميل</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="value">${avgRating}</div>
+                                    <div class="label">التقييم</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="value">${mod.engine}</div>
+                                    <div class="label">المحرك</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mod-detail-actions">
+                            <button class="btn btn-primary btn-large download-detail-btn" data-index="${index}">تحميل المود</button>
+                            ${mod.video ? `<a href="${mod.video}" target="_blank" class="btn btn-secondary btn-large"><i class="fab fa-youtube"></i> مشاهدة الفيديو</a>` : ''}
+                            ${currentUser && currentUser.username === mod.author ? `<button class="btn btn-danger btn-large delete-mod-btn" data-index="${index}">حذف المود</button>` : ''}
+                        </div>
+                    </div>
+                </div>
+                ${mod.gallery && mod.gallery.length > 0 ? `
+                <div class="mod-gallery">
+                    <h3 style="color: var(--text);">معرض الصور</h3>
+                    <div class="gallery-grid">
+                        ${mod.gallery.map(img => `<div class="gallery-item"><img src="${img}" alt="${mod.name}"></div>`).join('')}
+                    </div>
+                </div>
+                ` : ''}
+            `;
+            
+            showDetailPage();
+            
+            // إضافة مستمع حدث لزر التحميل في صفحة التفاصيل
+            document.querySelector('.download-detail-btn').addEventListener('click', () => {
+                downloadMod(index);
+            });
+            
+            // إضافة مستمع حدث لزر الحذف
+            const deleteBtn = document.querySelector('.delete-mod-btn');
+            if (deleteBtn) {
+                deleteBtn.addEventListener('click', () => {
+                    modToDelete = index;
+                    deleteModal.classList.add('active');
+                });
+            }
+            
+            // إضافة مستمعي الأحداث للنجوم
+            if (currentUser) {
+                const userRating = getUserRating(mod.id);
+                updateUserRatingStars(userRating);
+                
+                document.querySelectorAll('.rate-star').forEach(star => {
+                    star.addEventListener('click', () => {
+                        const rating = parseInt(star.getAttribute('data-rating'));
+                        rateMod(mod.id, rating);
+                    });
+                    
+                    star.addEventListener('mouseenter', () => {
+                        const rating = parseInt(star.getAttribute('data-rating'));
+                        highlightStars(rating);
+                    });
+                });
+                
+                document.getElementById('user-rating').addEventListener('mouseleave', () => {
+                    updateUserRatingStars(userRating);
+                });
+            }
+        }
+
+        // الحصول على تقييم المستخدم للمود
+        function getUserRating(modId) {
+            const modRatings = ratings[modId] || [];
+            const userRating = modRatings.find(r => r.userId === currentUser.id);
+            return userRating ? userRating.rating : 0;
+        }
+
+        // تحديث نجوم التقييم
+        function updateUserRatingStars(rating) {
+            document.querySelectorAll('.rate-star').forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.remove('far');
+                    star.classList.add('fas', 'filled');
+                } else {
+                    star.classList.remove('fas', 'filled');
+                    star.classList.add('far');
+                }
+            });
+        }
+
+        // تلوين النجوم عند التمرير
+        function highlightStars(rating) {
+            document.querySelectorAll('.rate-star').forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.remove('far');
+                    star.classList.add('fas', 'filled');
+                } else {
+                    star.classList.remove('fas', 'filled');
+                    star.classList.add('far');
+                }
+            });
+        }
+
+        // تقييم المود
+        function rateMod(modId, rating) {
+            if (!ratings[modId]) {
+                ratings[modId] = [];
+            }
+            
+            const existingRatingIndex = ratings[modId].findIndex(r => r.userId === currentUser.id);
+            
+            if (existingRatingIndex !== -1) {
+                ratings[modId][existingRatingIndex].rating = rating;
+            } else {
+                ratings[modId].push({
+                    userId: currentUser.id,
+                    rating: rating
+                });
+            }
+            
+            localStorage.setItem('fnfRatings', JSON.stringify(ratings));
+            showModDetails(mods.findIndex(m => m.id === modId));
+        }
+
+        // حذف المود
+        function deleteMod(index) {
+            if (index !== null && index >= 0 && index < mods.length) {
+                mods.splice(index, 1);
+                localStorage.setItem('fnfMods', JSON.stringify(mods));
+                showMainPage();
+                updateUI();
+            }
+        }
+
+        // تسجيل الدخول
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            const user = users.find(u => u.email === email && u.password === password);
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                loginModal.classList.remove('active');
+                updateUI();
+                document.getElementById('login-error').style.display = 'none';
+            } else {
+                document.getElementById('login-error').style.display = 'block';
+            }
+        });
+
+        // إنشاء حساب
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('register-username').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+            
+            if (password !== confirmPassword) {
+                document.getElementById('register-error').textContent = 'كلمات المرور غير متطابقة';
+                document.getElementById('register-error').style.display = 'block';
+                return;
+            }
+            
+            if (users.find(u => u.email === email)) {
+                document.getElementById('register-error').textContent = 'البريد الإلكتروني مستخدم بالفعل';
+                document.getElementById('register-error').style.display = 'block';
+                return;
+            }
+            
+            const newUser = { id: Date.now(), username, email, password, joinDate: new Date().toLocaleDateString('ar-AR') };
+            users.push(newUser);
+            localStorage.setItem('fnfUsers', JSON.stringify(users));
+            
+            document.getElementById('register-success').style.display = 'block';
+            document.getElementById('register-error').style.display = 'none';
+            
+            setTimeout(() => {
+                registerModal.classList.remove('active');
+                loginModal.classList.add('active');
+                document.getElementById('register-success').style.display = 'none';
+                registerForm.reset();
+            }, 2000);
+        });
+
+        // نشر مود جديد
+        addModForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            if (!currentUser) {
+                alert('يجب تسجيل الدخول أولاً');
+                return;
+            }
+            
+            const name = document.getElementById('mod-name').value;
+            const description = document.getElementById('mod-description').value;
+            const engine = document.getElementById('mod-engine').value;
+            const video = document.getElementById('mod-video').value;
+            const link = document.getElementById('mod-link').value;
+            
+            // في تطبيق حقيقي، سنقوم برفع الملفات إلى الخادم
+            // هنا سنقوم بمحاكاة العملية
+            const imageFile = modImage.files[0];
+            const galleryFiles = modGallery.files;
+            
+            if (!imageFile || !name || !description || !engine || !link) {
+                document.getElementById('mod-error').style.display = 'block';
+                return;
+            }
+            
+            const imageUrl = URL.createObjectURL(imageFile);
+            
+            const galleryUrls = [];
+            for (let i = 0; i < galleryFiles.length; i++) {
+                galleryUrls.push(URL.createObjectURL(galleryFiles[i]));
+            }
+            
+            const newMod = {
+                id: Date.now(),
+                name,
+                description,
+                engine,
+                author: currentUser.username,
+                image: imageUrl,
+                link: link,
+                video: video || null,
+                gallery: galleryUrls,
+                downloads: 0,
+                date: new Date().toLocaleDateString('ar-AR')
+            };
+            
+            mods.push(newMod);
+            localStorage.setItem('fnfMods', JSON.stringify(mods));
+            
+            document.getElementById('mod-success').style.display = 'block';
+            document.getElementById('mod-error').style.display = 'none';
+            
+            setTimeout(() => {
+                addModModal.classList.remove('active');
+                document.getElementById('mod-success').style.display = 'none';
+                addModForm.reset();
+                modImageBtn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> اختر صورة الغلاف';
+                modGalleryBtn.innerHTML = '<i class="fas fa-images"></i> اختر صور إضافية';
+                updateUI();
+            }, 1500);
+        });
+
+        // عرض الملف الشخصي
+        function showProfile() {
+            if (!currentUser) {
+                loginModal.classList.add('active');
+                return;
+            }
+            
+            const userMods = mods.filter(mod => mod.author === currentUser.username);
+            const totalDownloads = userMods.reduce((sum, mod) => sum + (mod.downloads || 0), 0);
+            const avgRating = userMods.length > 0 ? 
+                (userMods.reduce((sum, mod) => {
+                    const modRatings = ratings[mod.id] || [];
+                    return sum + (modRatings.length > 0 ? 
+                        modRatings.reduce((s, r) => s + r.rating, 0) / modRatings.length : 0);
+                }, 0) / userMods.length).toFixed(1) : '0.0';
+            
+            profileContent.innerHTML = `
+                <div class="developer-profile">
+                    <div class="developer-avatar">
+                        <div class="avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h2>${currentUser.username}</h2>
+                        <p style="color: var(--text); opacity: 0.8;">${currentUser.email}</p>
+                        <p style="color: var(--text); opacity: 0.8;">منضم منذ: ${currentUser.joinDate || 'غير معروف'}</p>
+                    </div>
+                    <div class="developer-info">
+                        <div class="developer-stats">
+                            <div class="stat">
+                                <div class="stat-value">${userMods.length}</div>
+                                <div class="stat-label">مودات</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">${totalDownloads}</div>
+                                <div class="stat-label">تحميلات</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">${avgRating}</div>
+                                <div class="stat-label">متوسط التقييم</div>
+                            </div>
+                        </div>
+                        <h3 style="margin-top: 2rem; color: var(--text);">موداتي</h3>
+                        <div class="mods-grid" style="margin-top: 1rem;">
+                            ${userMods.length > 0 ? 
+                                userMods.map((mod, index) => `
+                                    <div class="mod-card">
+                                        <div class="mod-image">
+                                            ${mod.image ? `<img src="${mod.image}" alt="${mod.name}">` : `<i class="fas fa-music"></i>`}
+                                        </div>
+                                        <div class="mod-info">
+                                            <h3 class="mod-title">${mod.name}</h3>
+                                            <p class="mod-description">${mod.description}</p>
+                                            <div class="mod-meta">
+                                                <span><i class="fas fa-download"></i> ${mod.downloads || 0}</span>
+                                                <span>${mod.engine}</span>
+                                            </div>
+                                            <div class="mod-actions">
+                                                <button class="btn btn-primary download-btn" data-index="${mods.indexOf(mod)}">تحميل</button>
+                                                <button class="btn btn-secondary details-btn" data-index="${mods.indexOf(mod)}">تفاصيل</button>
+                                                <button class="btn btn-danger delete-mod-btn" data-index="${mods.indexOf(mod)}">حذف</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('') : 
+                                '<p style="text-align: center; color: var(--text); opacity: 0.7; padding: 2rem; grid-column: 1 / -1;">لم تقم بنشر أي مودات بعد.</p>'
+                            }
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            profileModal.classList.add('active');
+            
+            // إضافة مستمعي الأحداث للأزرار
+            document.querySelectorAll('.download-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const index = e.target.getAttribute('data-index');
+                    downloadMod(index);
+                });
+            });
+            
+            document.querySelectorAll('.details-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const index = e.target.getAttribute('data-index');
+                    showModDetails(index);
+                });
+            });
+            
+            document.querySelectorAll('.delete-mod-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const index = e.target.getAttribute('data-index');
+                    modToDelete = index;
+                    deleteModal.classList.add('active');
+                });
+            });
+        }
+
+        // تغيير المظهر
+        function toggleTheme() {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.body.setAttribute('data-theme', currentTheme);
+            localStorage.setItem('theme', currentTheme);
+        }
+
+        // تغيير اللغة
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            localStorage.setItem('language', lang);
+            
+            // تحديث أزرار اللغة
+            langButtons.forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+            });
+        }
+
+        // مستمعي الأحداث
+        loginBtn.addEventListener('click', () => {
+            loginModal.classList.add('active');
+        });
+
+        registerBtn.addEventListener('click', () => {
+            registerModal.classList.add('active');
+        });
+
+        addModBtn.addEventListener('click', () => {
+            if (currentUser) {
+                addModModal.classList.add('active');
+            } else {
+                loginModal.classList.add('active');
+            }
+        });
+
+        myModsBtn.addEventListener('click', () => {
+            showProfile();
+        });
+
+        profileBtn.addEventListener('click', () => {
+            showProfile();
+        });
+
+        settingsBtn.addEventListener('click', () => {
+            settingsModal.classList.add('active');
+        });
+
+        heroAddModBtn.addEventListener('click', () => {
+            if (currentUser) {
+                addModModal.classList.add('active');
+            } else {
+                loginModal.classList.add('active');
+            }
+        });
+
+        userBtn.addEventListener('click', () => {
+            dropdownMenu.classList.toggle('active');
+        });
+
+        closeModals.forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+            });
+        });
+
+        switchToRegister.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginModal.classList.remove('active');
+            registerModal.classList.add('active');
+        });
+
+        switchToLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            registerModal.classList.remove('active');
+            loginModal.classList.add('active');
+        });
+
+        // تأكيد الحذف
+        confirmDeleteBtn.addEventListener('click', () => {
+            deleteMod(modToDelete);
+            deleteModal.classList.remove('active');
+            modToDelete = null;
+        });
+
+        // إلغاء الحذف
+        cancelDeleteBtn.addEventListener('click', () => {
+            deleteModal.classList.remove('active');
+            modToDelete = null;
+        });
+
+        // تبديل المظهر
+        themeToggle.addEventListener('change', toggleTheme);
+
+        // تغيير اللغة
+        langButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                changeLanguage(lang);
+            });
+        });
+
+        // التبويبات
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.getAttribute('data-tab');
+                
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === tabId) {
+                        content.classList.add('active');
+                    }
+                });
+            });
+        });
+
+        // تحديث أسماء الملفات المختارة
+        modImage.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                modImageBtn.innerHTML = `<i class="fas fa-check"></i> ${this.files[0].name}`;
+            }
+        });
+
+        modGallery.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                modGalleryBtn.innerHTML = `<i class="fas fa-check"></i> ${this.files.length} ملفات مختارة`;
+            }
+        });
+
+        // إضافة مستمعي الأحداث للأزرار الديناميكية
+        document.addEventListener('click', function(e) {
+            // أزرار التفاصيل
+            if (e.target.classList.contains('details-btn')) {
+                const index = e.target.getAttribute('data-index');
+                showModDetails(index);
+            }
+            
+            // أزرار التحميل
+            if (e.target.classList.contains('download-btn')) {
+                const index = e.target.getAttribute('data-index');
+                downloadMod(index);
+            }
+            
+            // إغلاق القوائم المنسدلة والنوافذ عند النقر خارجها
+            if (!e.target.closest('.user-menu')) {
+                dropdownMenu.classList.remove('active');
+            }
+            
+            if (e.target.classList.contains('modal')) {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+            }
+        });
+
+        // تهيئة التطبيق
+        initializeApp();
+    </script>
+</body>
+</html>
